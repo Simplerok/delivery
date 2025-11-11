@@ -1,11 +1,11 @@
-package ru.raif.dddarchraif
+package ru.raif.delivery
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @SpringBootApplication
-class DddArchRaif1Application
+class DeliveryApplication
 
 fun main(args: Array<String>) {
-    runApplication<DddArchRaif1Application>(*args)
+    runApplication<DeliveryApplication>(*args)
 }

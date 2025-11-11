@@ -7,7 +7,7 @@ plugins {
 
 group = "ru.raif"
 version = "0.0.1-SNAPSHOT"
-description = "ddd-arch-raif"
+description = "delivery"
 
 java {
     toolchain {

@@ -1,1 +1,1 @@
-rootProject.name = "ddd-arch-raif"
+rootProject.name = "delivery"

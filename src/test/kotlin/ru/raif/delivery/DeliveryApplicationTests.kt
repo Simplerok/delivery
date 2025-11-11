@@ -1,10 +1,10 @@
-package ru.raif.dddarchraif
+package ru.raif.delivery
 
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
 
 @SpringBootTest
-class DddArchRaifApplicationTests {
+class DeliveryApplicationTests {
 
     @Test
     fun contextLoads() {
