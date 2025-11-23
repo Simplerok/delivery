@@ -3,7 +3,7 @@ package ru.raif.delivery.core.domain.model.shared
 import arrow.core.Either
 import arrow.core.left
 import arrow.core.right
-import ru.raif.delivery.lib.Error
+import ru.raif.delivery.lib.error.Error
 import kotlin.math.abs
 
 

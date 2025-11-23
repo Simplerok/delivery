@@ -5,7 +5,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.MethodSource
-import ru.raif.delivery.lib.Error
+import ru.raif.delivery.lib.error.Error
 
 class LocationTest {
 
