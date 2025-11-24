@@ -37,12 +37,18 @@ class StoragePlace private constructor(
 
     fun isOccupied(): Boolean = orderId != null
 
-    fun store(orderId: UUID, volume: Int): Either<Error, StoragePlace> {
+    fun store(orderId: UUID, volume: Int): Either<Error, Unit> {
         if (!this.canStore(volume)) return Error.NOT_ENOUGH_VOLUME.left()
         if (this.isOccupied()) return Error.OCCUPIED.left()
 
-        return this.apply {
-            this.orderId = orderId
-        }.right()
+        this.orderId = orderId
+        return Unit.right()
+    }
+
+    fun clear(orderId: UUID): Either<Error, Unit> {
+        if (this.orderId != orderId) return Error.ORDER_NOT_FOUND.left()
+        this.orderId = null
+
+        return Unit.right()
     }
 }

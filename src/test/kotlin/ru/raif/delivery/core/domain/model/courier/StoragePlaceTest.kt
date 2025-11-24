@@ -48,6 +48,24 @@ class StoragePlaceTest {
     }
 
     @Test
+    fun `should clear volume successfully`() {
+        //given
+        val location = StoragePlace.create(
+            name = "Легковой авто",
+            totalVolume = 10,
+        )
+        val orderId = UUID.randomUUID()
+        location.getOrNull()?.store(orderId, 9)
+
+        //when
+        val result = location.flatMap { it.clear(UUID.randomUUID()) }
+
+        //then
+        assertThat(result.isRight()).isTrue()
+        assertThat(location.getOrNull()?.orderId).isNull()
+    }
+
+    @Test
     fun `should get NOT_ENOUGH_VOLUME when store volume`() {
         //given and when
         val location = StoragePlace.create(
@@ -69,7 +87,8 @@ class StoragePlaceTest {
         val location = StoragePlace.create(
             name = "Легковой авто",
             totalVolume = 10,
-        ).flatMap { it.store(UUID.randomUUID(), 9) }
+        )
+        location.getOrNull()?.store(UUID.randomUUID(), 9)
 
         //when
         val result = location.flatMap { it.store(UUID.randomUUID(), 9) }
@@ -77,6 +96,23 @@ class StoragePlaceTest {
         //then
         assertThat(result.isLeft()).isTrue()
         assertThat(result.leftOrNull()).isEqualTo(Error.OCCUPIED)
+    }
+
+    @Test
+    fun `should get ORDER_NOT_FOUND when clear not existing orderId`() {
+        //given and when
+        val location = StoragePlace.create(
+            name = "Легковой авто",
+            totalVolume = 10,
+        )
+        location.getOrNull()?.store(UUID.randomUUID(), 9)
+
+        //when
+        val result = location.flatMap { it.clear(UUID.randomUUID()) }
+
+        //then
+        assertThat(result.isLeft()).isTrue()
+        assertThat(result.leftOrNull()).isEqualTo(Error.ORDER_NOT_FOUND)
     }
 
 }
