@@ -11,7 +11,7 @@ data class Location private constructor(
     val x: Int,
     val y: Int,
 ) {
-    fun distanceT0(other: Location): Int =
+    fun distanceTo(other: Location): Int =
         abs(x - other.x) + abs(y - other.y)
 
     companion object {
