@@ -3,10 +3,11 @@ package ru.raif.delivery.core.domain.model.shared
 import arrow.core.Either
 import arrow.core.left
 import arrow.core.right
+import jakarta.persistence.Embeddable
 import ru.raif.delivery.lib.error.Error
 import kotlin.math.abs
 
-
+@Embeddable
 data class Location private constructor(
     val x: Int,
     val y: Int,

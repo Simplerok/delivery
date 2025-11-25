@@ -5,11 +5,13 @@ import arrow.core.left
 import arrow.core.right
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
+import jakarta.persistence.Table
 import ru.raif.delivery.lib.ddd.BaseEntity
 import ru.raif.delivery.lib.error.Error
 import java.util.UUID
 
 @Entity
+@Table(name = "storage_place")
 class StoragePlace private constructor(
     id: UUID,
     @Column
