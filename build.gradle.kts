@@ -21,9 +21,13 @@ repositories {
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    implementation("org.springframework.kafka:spring-kafka")
+    runtimeOnly("org.postgresql:postgresql")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("io.arrow-kt:arrow-core:2.2.0")
+
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
     testImplementation("io.mockk:mockk:1.14.3")
@@ -34,6 +38,12 @@ kotlin {
     compilerOptions {
         freeCompilerArgs.addAll("-Xjsr305=strict")
     }
+}
+
+allOpen {
+    annotation("jakarta.persistence.Entity")
+    annotation("jakarta.persistence.MappedSuperclass")
+    annotation("jakarta.persistence.Embeddable")
 }
 
 tasks.withType<Test> {

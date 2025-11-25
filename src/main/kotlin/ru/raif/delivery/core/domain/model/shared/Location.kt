@@ -3,7 +3,7 @@ package ru.raif.delivery.core.domain.model.shared
 import arrow.core.Either
 import arrow.core.left
 import arrow.core.right
-import ru.raif.delivery.lib.Error
+import ru.raif.delivery.lib.error.Error
 import kotlin.math.abs
 
 
@@ -11,7 +11,7 @@ data class Location private constructor(
     val x: Int,
     val y: Int,
 ) {
-    fun distanceT0(other: Location): Int =
+    fun distanceTo(other: Location): Int =
         abs(x - other.x) + abs(y - other.y)
 
     companion object {

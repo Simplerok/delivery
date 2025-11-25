@@ -5,7 +5,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.MethodSource
-import ru.raif.delivery.lib.Error
+import ru.raif.delivery.lib.error.Error
 
 class LocationTest {
 
@@ -33,7 +33,7 @@ class LocationTest {
         val location2 = Location.of(9, 7).getOrNull()!!
 
         //when
-        val distance = location1.distanceT0(location2)
+        val distance = location1.distanceTo(location2)
 
         //then
         assertThat(distance).isEqualTo(13)
