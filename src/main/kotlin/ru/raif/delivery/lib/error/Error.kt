@@ -6,4 +6,5 @@ enum class Error {
     OCCUPIED,
     ORDER_NOT_FOUND,
     INVALID_ORDER_STATUS,
+    NO_COURIERS_FOR_DELIVERY,
 }
