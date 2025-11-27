@@ -5,5 +5,5 @@ enum class Error {
     NOT_ENOUGH_VOLUME,
     OCCUPIED,
     ORDER_NOT_FOUND,
-
+    INVALID_ORDER_STATUS,
 }
