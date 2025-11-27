@@ -20,6 +20,7 @@ import ru.raif.delivery.core.domain.model.shared.Location
 import java.util.UUID
 import ru.raif.delivery.lib.error.Error
 import kotlin.math.abs
+import kotlin.math.max
 import kotlin.math.min
 
 @Entity
@@ -94,10 +95,12 @@ class Courier private constructor(
             .let { it.toDouble() / this.speed }
 
     fun moveTo(location: Location): Either<Error, Unit> {
-        val xDelta = abs(this.location.x - location.x)
-        val yDelta = abs(this.location.y - location.y)
-        val xStep = min(xDelta, this.speed)
-        val yStep = min(yDelta, (this.speed - xStep))
+        val xDelta = this.location.x - location.x
+        val yDelta = this.location.y - location.y
+        var cruiseRange = this.speed
+        val xStep = max(-cruiseRange, min(xDelta, cruiseRange))
+        cruiseRange -= abs(xStep)
+        val yStep = max(-cruiseRange, min(yDelta, cruiseRange))
 
         return Location.of(this.location.x + xStep, this.location.y + yStep)
             .map { newLocation ->
