@@ -14,11 +14,11 @@ import jakarta.persistence.Id
 import jakarta.persistence.JoinColumn
 import jakarta.persistence.OneToMany
 import jakarta.persistence.Table
-import org.springframework.data.domain.AbstractAggregateRoot
 import ru.raif.delivery.core.domain.model.order.Order
 import ru.raif.delivery.core.domain.model.shared.Location
-import java.util.UUID
+import ru.raif.delivery.lib.ddd.Aggregate
 import ru.raif.delivery.lib.error.Error
+import java.util.*
 import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.min
@@ -36,11 +36,11 @@ class Courier private constructor(
     var location: Location,
     @OneToMany(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
     @JoinColumn(
-        foreignKey = ForeignKey(name = "courier_storage_place_id_fk"),
-        name = "storage_place_id",
+        foreignKey = ForeignKey(name = "storage_place_courier_id_fk"),
+        name = "courier_id",
     )
     val storagePlaces: MutableList<StoragePlace>,
-) : AbstractAggregateRoot<Courier>() {
+) : Aggregate<Courier>() {
     public override fun domainEvents(): MutableCollection<Any> = super.domainEvents()
 
     companion object {
