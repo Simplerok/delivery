@@ -6,15 +6,17 @@ import arrow.core.right
 import jakarta.persistence.Column
 import jakarta.persistence.Embedded
 import jakarta.persistence.Entity
+import jakarta.persistence.EnumType
+import jakarta.persistence.Enumerated
 import jakarta.persistence.Id
 import jakarta.persistence.Table
-import org.springframework.data.domain.AbstractAggregateRoot
 import ru.raif.delivery.core.domain.model.shared.Location
+import ru.raif.delivery.lib.ddd.Aggregate
 import ru.raif.delivery.lib.error.Error
 import java.util.*
 
 @Entity
-@Table(name = "order")
+@Table(name = "c_order")
 class Order private constructor(
     @Id
     val id: UUID,
@@ -23,19 +25,19 @@ class Order private constructor(
     @Column
     val volume: Int,
     @Column
+    @Enumerated(EnumType.STRING)
     var status: OrderStatus,
-
     @Column
     var courierId: UUID? = null,
-) : AbstractAggregateRoot<Order>() {
+) : Aggregate<Order>() {
     public override fun domainEvents(): MutableCollection<Any> = super.domainEvents()
 
     companion object {
-        fun create(id: UUID, location: Location, volume: Int): Either<Error, Order> {
+        fun create(location: Location, volume: Int): Either<Error, Order> {
             if (volume <= 0) return Error.INVALID_ARGUMENTS.left()
 
             return Order(
-                id = id,
+                id = UUID.randomUUID(),
                 location = location,
                 volume = volume,
                 status = OrderStatus.CREATED,
@@ -48,7 +50,7 @@ class Order private constructor(
         status = OrderStatus.ASSIGNED
     }
 
-    fun complete():Either<Error, Unit> {
+    fun complete(): Either<Error, Unit> {
         if (status != OrderStatus.ASSIGNED) return Error.INVALID_ORDER_STATUS.left()
         status = OrderStatus.COMPLETED
         return Unit.right()
