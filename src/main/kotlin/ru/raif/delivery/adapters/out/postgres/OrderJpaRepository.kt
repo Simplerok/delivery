@@ -8,4 +8,5 @@ import java.util.*
 interface OrderJpaRepository : JpaRepository<Order, UUID> {
     fun findFirstByStatus(status: OrderStatus): Order?
     fun findAllByStatus(status: OrderStatus): List<Order>
+    fun findAllByStatusNot(status: OrderStatus): List<Order>
 }

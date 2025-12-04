@@ -9,10 +9,9 @@ import java.util.UUID
 @Repository
 class CourierRepositoryImpl(
     private val repository: CourierJpaRepository,
-): CourierRepository {
-    override fun create(courier: Courier) {
+) : CourierRepository {
+    override fun save(courier: Courier): Courier =
         repository.save(courier)
-    }
 
     override fun update(courier: Courier) {
         repository.save(courier)
@@ -23,4 +22,7 @@ class CourierRepositoryImpl(
 
     override fun findAllNotBusy(): List<Courier> =
         repository.findAllByStoragePlaces_OrderIdIsNull()
+
+    override fun findAllBusy(): List<Courier> =
+        repository.findAllByStoragePlaces_OrderIdIsNotNull()
 }
