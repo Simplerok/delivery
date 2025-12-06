@@ -58,7 +58,7 @@ class StoragePlaceTest {
         location.getOrNull()?.store(orderId, 9)
 
         //when
-        val result = location.flatMap { it.clear(UUID.randomUUID()) }
+        val result = location.flatMap { it.clear(orderId) }
 
         //then
         assertThat(result.isRight()).isTrue()

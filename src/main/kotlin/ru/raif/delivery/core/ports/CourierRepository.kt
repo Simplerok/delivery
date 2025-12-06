@@ -5,12 +5,14 @@ import java.util.UUID
 
 interface CourierRepository {
 
-    fun create(courier: Courier)
+    fun save(courier: Courier): Courier
 
     fun update(courier: Courier)
 
     fun getById(courierId: UUID): Courier?
 
-    fun findAllNotBusy():List<Courier>
+    fun findAllNotBusy(): List<Courier>
+
+    fun findAllBusy(): List<Courier>
 
 }

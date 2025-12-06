@@ -18,6 +18,7 @@ class OrderDispatcherImplTest {
         val order = Location.of(2, 2)
             .flatMap {
                 Order.create(
+                    orderId = UUID.randomUUID(),
                     location = it,
                     volume = 8,
                 )
@@ -58,6 +59,7 @@ class OrderDispatcherImplTest {
         val order = Location.of(2, 2)
             .flatMap {
                 Order.create(
+                    orderId = UUID.randomUUID(),
                     location = it,
                     volume = 12,
                 )

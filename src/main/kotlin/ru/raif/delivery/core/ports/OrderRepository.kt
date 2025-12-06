@@ -6,7 +6,7 @@ import java.util.UUID
 
 interface OrderRepository {
 
-    fun create(order: Order):Order
+    fun save(order: Order):Order
 
     fun update(order: Order)
 
@@ -15,4 +15,6 @@ interface OrderRepository {
     fun findFirstByStatus(status: OrderStatus): Order?
 
     fun findAllByStatus(status: OrderStatus): List<Order>
+
+    fun findAllByStatusNot(status: OrderStatus): List<Order>
 }

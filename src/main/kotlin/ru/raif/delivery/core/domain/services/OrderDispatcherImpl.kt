@@ -3,10 +3,12 @@ package ru.raif.delivery.core.domain.services
 import arrow.core.Either
 import arrow.core.left
 import arrow.core.right
+import org.springframework.stereotype.Service
 import ru.raif.delivery.core.domain.model.courier.Courier
 import ru.raif.delivery.core.domain.model.order.Order
 import ru.raif.delivery.lib.error.Error
 
+@Service
 class OrderDispatcherImpl: OrderDispatcher {
     override fun dispatch(
         order: Order,

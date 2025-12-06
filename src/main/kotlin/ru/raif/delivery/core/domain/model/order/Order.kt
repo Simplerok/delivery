@@ -33,11 +33,11 @@ class Order private constructor(
     public override fun domainEvents(): MutableCollection<Any> = super.domainEvents()
 
     companion object {
-        fun create(location: Location, volume: Int): Either<Error, Order> {
+        fun create(orderId:UUID, location: Location, volume: Int): Either<Error, Order> {
             if (volume <= 0) return Error.INVALID_ARGUMENTS.left()
 
             return Order(
-                id = UUID.randomUUID(),
+                id = orderId,
                 location = location,
                 volume = volume,
                 status = OrderStatus.CREATED,
