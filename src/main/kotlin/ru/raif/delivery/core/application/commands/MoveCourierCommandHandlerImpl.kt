@@ -2,13 +2,13 @@ package ru.raif.delivery.core.application.commands
 
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import ru.raif.delivery.adapters.out.postgres.CourierRepositoryImpl
-import ru.raif.delivery.adapters.out.postgres.OrderRepositoryImpl
+import ru.raif.delivery.core.ports.CourierRepository
+import ru.raif.delivery.core.ports.OrderRepository
 
 @Service
 class MoveCourierCommandHandlerImpl(
-    val courierRepository: CourierRepositoryImpl,
-    val orderRepository: OrderRepositoryImpl,
+    val courierRepository: CourierRepository,
+    val orderRepository: OrderRepository,
 ) : MoveCourierCommandHandler {
     @Transactional
     override fun handle() {
