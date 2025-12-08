@@ -16,6 +16,7 @@ class OrderTest {
         //when
         val order = location.flatMap {
             Order.create(
+                orderId = UUID.randomUUID(),
                 location = it,
                 volume = 8,
             )
@@ -34,6 +35,7 @@ class OrderTest {
         //when
         val order = location.flatMap {
             Order.create(
+                orderId = UUID.randomUUID(),
                 location = it,
                 volume = -1,
             )
@@ -50,6 +52,7 @@ class OrderTest {
         val order = Location.of(2, 2)
             .flatMap {
                 Order.create(
+                    orderId = UUID.randomUUID(),
                     location = it,
                     volume = 8,
                 )
@@ -69,6 +72,7 @@ class OrderTest {
         val order = Location.of(2, 2)
             .flatMap {
                 Order.create(
+                    orderId = UUID.randomUUID(),
                     location = it,
                     volume = 8,
                 )
@@ -89,6 +93,7 @@ class OrderTest {
         val order = Location.of(2, 2)
             .flatMap {
                 Order.create(
+                    orderId = UUID.randomUUID(),
                     location = it,
                     volume = 8,
                 )
@@ -108,6 +113,7 @@ class OrderTest {
         val order = Location.of(2, 2)
             .flatMap {
                 Order.create(
+                    orderId = UUID.randomUUID(),
                     location = it,
                     volume = 8,
                 )

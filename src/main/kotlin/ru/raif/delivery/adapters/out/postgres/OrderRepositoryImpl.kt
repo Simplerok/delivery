@@ -6,14 +6,12 @@ import ru.raif.delivery.core.domain.model.order.Order
 import ru.raif.delivery.core.domain.model.order.OrderStatus
 import ru.raif.delivery.core.ports.OrderRepository
 import java.util.UUID
-import kotlin.jvm.optionals.getOrNull
 
 @Repository
 class OrderRepositoryImpl(
     private val repository: OrderJpaRepository
 ): OrderRepository {
-    override fun create(order: Order): Order = repository.save(order)
-
+    override fun save(order: Order): Order = repository.save(order)
 
     override fun update(order: Order) {
         repository.save(order)
@@ -27,4 +25,7 @@ class OrderRepositoryImpl(
 
     override fun findAllByStatus(status: OrderStatus): List<Order> =
         repository.findAllByStatus(status)
+
+    override fun findAllByStatusNot(status: OrderStatus): List<Order> =
+        repository.findAllByStatusNot(status)
 }

@@ -6,4 +6,5 @@ import java.util.UUID
 
 interface CourierJpaRepository: JpaRepository<Courier, UUID> {
     fun findAllByStoragePlaces_OrderIdIsNull(): List<Courier>
+    fun findAllByStoragePlaces_OrderIdIsNotNull(): List<Courier>
 }

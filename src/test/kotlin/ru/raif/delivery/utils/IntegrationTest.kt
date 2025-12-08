@@ -7,9 +7,11 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.TestExecutionListeners
+import org.springframework.transaction.support.TransactionTemplate
 import org.testcontainers.junit.jupiter.Testcontainers
 import ru.raif.delivery.adapters.out.postgres.CourierRepositoryImpl
 import ru.raif.delivery.adapters.out.postgres.OrderRepositoryImpl
+import ru.raif.delivery.core.application.commands.AssignOrderToCourierCommandHandlerImpl
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
@@ -24,4 +26,10 @@ abstract class IntegrationTest {
 
     @Autowired
     protected lateinit var courierRepository: CourierRepositoryImpl
+
+    @Autowired
+    protected lateinit var assignOrderToCourierCommandHandlerImpl: AssignOrderToCourierCommandHandlerImpl
+
+    @Autowired
+    protected lateinit var  transactionTemplate: TransactionTemplate
 }
