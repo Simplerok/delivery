@@ -3,6 +3,7 @@ plugins {
     kotlin("plugin.spring") version "1.9.25"
     id("org.springframework.boot") version "3.5.7"
     id("io.spring.dependency-management") version "1.1.7"
+    id("org.openapi.generator") version "7.13.0"
     kotlin("plugin.jpa") version "1.9.25"
     kotlin("plugin.noarg") version "1.9.25"
 }
@@ -24,6 +25,7 @@ repositories {
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    implementation("org.springframework.boot:spring-boot-starter-quartz")
     implementation("org.springframework.kafka:spring-kafka")
     runtimeOnly("org.postgresql:postgresql")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
@@ -32,6 +34,8 @@ dependencies {
     implementation("org.liquibase:liquibase-core")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.17.0")
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.17.0")
+
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.12")
 
     implementation("io.github.oshai:kotlin-logging-jvm:7.0.3")
 
@@ -63,3 +67,39 @@ allOpen {
 tasks.withType<Test> {
     useJUnitPlatform()
 }
+
+tasks {
+    openApiGenerate {
+        generatorName.set("kotlin-spring")
+        inputSpec.set("${projectDir}/src/main/resources/contract/openApi.yaml")
+        outputDir.set("$projectDir/src/main/kotlin/ru/raif/delivery/adapters/in/openapi")
+        apiPackage.set("api")
+        modelPackage.set("api.model")
+        configOptions.set(
+            mapOf(
+                "interfaceOnly" to "true",
+                "useTags" to "true",
+                "sortParamsByRequiredFlag" to "false",
+                "useResponseEntity" to "false",
+                "useSpringBoot3" to "true",
+                "exceptionHandler" to "false",
+                "skipDefaultInterface" to "true",
+            ),
+        )
+        typeMappings.set(
+            mapOf(
+                Pair("DateTime", "LocalDateTime"),
+            ),
+        )
+        importMappings.set(
+            mapOf(
+                Pair("LocalDateTime", "java.time.LocalDateTime"),
+                Pair("ErrorResponseDto", "org.raiffeisen.tf.common.core.web.response.ErrorResponseDto"),
+                Pair("CommentDto", "org.raiffeisen.tfo.comments.api.dto.comment.CommentDto"),
+                Pair("AgreementName", "org.raiffeisen.tfo.agora.enums.AgreementName"),
+            ),
+        )
+    }
+}
+
+tasks.compileKotlin.get().dependsOn("openApiGenerate")
