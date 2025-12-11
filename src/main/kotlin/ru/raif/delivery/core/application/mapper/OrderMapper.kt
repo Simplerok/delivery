@@ -1,5 +1,6 @@
 package ru.raif.delivery.core.application.mapper
 
+import api.model.LocationView
 import ru.raif.delivery.core.application.dto.LocationDto
 import ru.raif.delivery.core.application.dto.OrderDto
 import ru.raif.delivery.core.application.dto.OrderStatusDto
@@ -25,3 +26,8 @@ fun OrderStatus.asDto(): OrderStatusDto = when (this) {
     OrderStatus.CREATED -> OrderStatusDto.CREATED
     OrderStatus.COMPLETED -> OrderStatusDto.COMPLETED
 }
+
+fun LocationDto.asView(): LocationView = LocationView(
+    x = coordinateX,
+    y = coordinateY,
+)
