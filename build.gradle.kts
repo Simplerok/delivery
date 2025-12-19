@@ -1,3 +1,5 @@
+import com.google.protobuf.gradle.id
+
 plugins {
     kotlin("jvm") version "1.9.25"
     kotlin("plugin.spring") version "1.9.25"
@@ -6,11 +8,16 @@ plugins {
     id("org.openapi.generator") version "7.13.0"
     kotlin("plugin.jpa") version "1.9.25"
     kotlin("plugin.noarg") version "1.9.25"
+    id("com.google.protobuf") version "0.9.5"
 }
 
 group = "ru.raif"
 version = "0.0.1-SNAPSHOT"
 description = "delivery"
+
+val protobufVersion = "4.32.0"
+val grpcVersion = "1.75.0"
+val grpcKotlinVersion = "1.4.3"
 
 java {
     toolchain {
@@ -34,6 +41,16 @@ dependencies {
     implementation("org.liquibase:liquibase-core")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.17.0")
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.17.0")
+    implementation("net.devh:grpc-spring-boot-starter:3.1.0.RELEASE")
+
+    implementation("com.google.protobuf:protobuf-java:${protobufVersion}")
+    implementation("com.google.protobuf:protobuf-java-util:${protobufVersion}")
+    implementation("com.google.protobuf:protobuf-kotlin:${protobufVersion}")
+    implementation("io.grpc:grpc-kotlin-stub:${grpcKotlinVersion}")
+    implementation("io.grpc:grpc-protobuf:${grpcVersion}")
+    implementation("io.grpc:grpc-stub:${grpcVersion}")
+    implementation("io.grpc:grpc-netty:${grpcVersion}")
+    implementation("io.grpc:grpc-netty-shaded:${grpcVersion}")
 
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.12")
 
@@ -103,3 +120,66 @@ tasks {
 }
 
 tasks.compileKotlin.get().dependsOn("openApiGenerate")
+
+//protobuf {
+//    sourceSets {
+//        main {
+//            proto {
+//                srcDir("src/main/proto") // Путь к вашим .proto файлам
+//            }
+//        }
+//    }
+//
+//    protoc {
+//        artifact = "com.google.protobuf:protoc:${protobufVersion}"
+//    }
+//
+//    plugins {
+//        id("grpc") {
+//            artifact = "io.grpc:protoc-gen-grpc-java:${grpcVersion}"
+//        }
+//        id("grpckt") {
+//            artifact = "io.grpc:protoc-gen-grpc-kotlin:${grpcKotlinVersion}:jdk8@jar"
+//        }
+//    }
+//
+//    generateProtoTasks {
+//        ofSourceSet("main").forEach { task ->
+//            task.plugins {
+//                id("grpc") {
+//                    outputSubDir = "java"
+//                }
+//                id("grpckt") {
+//                    outputSubDir = "kotlin"
+//                }
+//            }
+//        }
+//    }
+//}
+
+protobuf {
+    protoc {
+        artifact = "com.google.protobuf:protoc:${protobufVersion}"
+    }
+
+    plugins {
+        create("grpc") {
+            artifact = "io.grpc:protoc-gen-grpc-java:${grpcVersion}"
+        }
+        create("grpckt") {
+            artifact = "io.grpc:protoc-gen-grpc-kotlin:${grpcKotlinVersion}:jdk8@jar"
+        }
+    }
+
+    generateProtoTasks {
+        all().forEach {
+            it.plugins {
+                create("grpc")
+                create("grpckt")
+            }
+            it.builtins {
+                create("kotlin")
+            }
+        }
+    }
+}
