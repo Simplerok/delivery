@@ -16,8 +16,24 @@ spring:
   liquibase:
     enabled: true
     change-log: classpath:db/changelog/db.changelog-master.yml
+
+  kafka:
+    bootstrap-servers: ${KAFKA_HOST:localhost:9092}
+    consumer:
+      group-id: ${KAFKA_CONSUMER_GROUP:delivery-group}
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+
 app:
   geo:
     grpc:
       host: ${GRPC_HOST:0.0.0.0}
       port: ${GRPC_PORT:5004}
+  kafka:
+    topics:
+      baskets-events-topic: baskets.events
