@@ -10,6 +10,8 @@ import jakarta.persistence.EnumType
 import jakarta.persistence.Enumerated
 import jakarta.persistence.Id
 import jakarta.persistence.Table
+import ru.raif.delivery.core.domain.model.order.events.OrderCompletedDomainEvent
+import ru.raif.delivery.core.domain.model.order.events.OrderCreatedDomainEvent
 import ru.raif.delivery.core.domain.model.shared.Location
 import ru.raif.delivery.lib.ddd.Aggregate
 import ru.raif.delivery.lib.error.Error
@@ -32,8 +34,13 @@ class Order private constructor(
 ) : Aggregate<Order>() {
     public override fun domainEvents(): MutableCollection<Any> = super.domainEvents()
 
+    init {
+        OrderCreatedDomainEvent(orderId = id)
+            .run(::registerEvent)
+    }
+
     companion object {
-        fun create(orderId:UUID, location: Location, volume: Int): Either<Error, Order> {
+        fun create(orderId: UUID, location: Location, volume: Int): Either<Error, Order> {
             if (volume <= 0) return Error.INVALID_ARGUMENTS.left()
 
             return Order(
@@ -53,6 +60,13 @@ class Order private constructor(
     fun complete(): Either<Error, Unit> {
         if (status != OrderStatus.ASSIGNED) return Error.INVALID_ORDER_STATUS.left()
         status = OrderStatus.COMPLETED
+        this.courierId?.let {
+            OrderCompletedDomainEvent(
+                orderId = this.id,
+                courierId = it,
+            )
+        }?.run(::registerEvent)
+
         return Unit.right()
     }
 }

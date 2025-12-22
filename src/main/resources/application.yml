@@ -37,3 +37,4 @@ app:
   kafka:
     topics:
       baskets-events-topic: baskets.events
+      orders-events-topic: orders.events

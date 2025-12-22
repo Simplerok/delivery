@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package order_event;
+
+option java_package = "queues.order";
+option java_outer_classname = "OrderEventsProto";
+
+import "google/protobuf/timestamp.proto";
+
+message OrderCreatedIntegrationEvent {
+  // Metadata
+  string event_id = 1;
+  string event_type = 2;
+  google.protobuf.Timestamp occurred_at = 3;
+
+  // Payload
+  string order_id = 4;
+}
+
+message OrderCompletedIntegrationEvent {
+  // Metadata
+  string event_id = 1;
+  string event_type = 2;
+  google.protobuf.Timestamp occurred_at = 3;
+
+  // Payload
+  string order_id = 4;
+  string courier_id = 5;
+}
