@@ -2,6 +2,7 @@ package ru.raif.delivery.adapters.out.kafka
 
 import com.google.protobuf.Timestamp
 import io.github.oshai.kotlinlogging.KotlinLogging
+import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.kafka.core.KafkaTemplate
 import org.springframework.stereotype.Component
@@ -14,7 +15,9 @@ import java.util.*
 
 @Component
 class OrderEventProducerImpl(
+    @Qualifier("kafkaTemplateForOrderCreated")
     private val kafkaOrderCreatedTemplate: KafkaTemplate<String, OrderEventsProto.OrderCreatedIntegrationEvent>,
+    @Qualifier("kafkaTemplateForOrderCompleted")
     private val kafkaOrderCompletedTemplate: KafkaTemplate<String, OrderEventsProto.OrderCompletedIntegrationEvent>,
     @Value("\${app.kafka.topics.orders-events-topic}") private val orderTopic: String,
 ) : OrderEventProducer {

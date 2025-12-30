@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service
 import ru.raif.delivery.core.application.dto.OrderDto
 import ru.raif.delivery.core.application.mapper.asDto
 import ru.raif.delivery.core.domain.model.order.Order
+import ru.raif.delivery.core.domain.model.shared.Location
 import ru.raif.delivery.core.ports.GeoClient
 import ru.raif.delivery.core.ports.OrderRepository
 import ru.raif.delivery.lib.error.Error

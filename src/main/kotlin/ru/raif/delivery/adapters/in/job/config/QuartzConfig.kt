@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import ru.raif.delivery.adapters.`in`.job.AssignOrdersJob
 import ru.raif.delivery.adapters.`in`.job.MoveCouriersJob
+import ru.raif.delivery.core.application.eventhandlers.DomainEventsRepublishJob
 
 
 @Configuration
@@ -27,7 +28,7 @@ class QuartzConfig {
             .withIdentity("assignOrdersTrigger")
             .withSchedule(
                 SimpleScheduleBuilder.simpleSchedule()
-                    .withIntervalInSeconds(2) // каждые 2 сек
+                    .withIntervalInSeconds(60) // каждые 2 сек
                     .repeatForever()
             )
             .build()
@@ -46,7 +47,26 @@ class QuartzConfig {
             .withIdentity("moveCouriersTrigger")
             .withSchedule(
                 SimpleScheduleBuilder.simpleSchedule()
-                    .withIntervalInSeconds(2) // каждые 2 сек
+                    .withIntervalInSeconds(60) // каждые 2 сек
+                    .repeatForever()
+            )
+            .build()
+
+    @Bean
+    fun domainEventsRepublishJobDetail(): JobDetail =
+        JobBuilder.newJob(DomainEventsRepublishJob::class.java)
+            .withIdentity("domainEventsRepublishJob")
+            .storeDurably()
+            .build()
+
+    @Bean
+    fun domainEventsRepublishTrigger(domainEventsRepublishJobDetail: JobDetail?): Trigger =
+        TriggerBuilder.newTrigger()
+            .forJob(domainEventsRepublishJobDetail)
+            .withIdentity("domainEventsRepublishTrigger")
+            .withSchedule(
+                SimpleScheduleBuilder.simpleSchedule()
+                    .withIntervalInSeconds(10) // каждые 10 сек
                     .repeatForever()
             )
             .build()
