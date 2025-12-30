@@ -18,6 +18,7 @@ import org.springframework.kafka.core.ProducerFactory
 import org.springframework.kafka.support.serializer.JsonDeserializer
 import org.springframework.kafka.support.serializer.JsonSerializer
 import queues.basket.BasketEventsProto
+import queues.order.OrderEventsProto
 
 @Configuration
 @EnableKafka
@@ -43,7 +44,7 @@ class KafkaConfig {
         }
 
     @Bean
-    fun producerFactory(): ProducerFactory<String, String> {
+    fun producerFactoryForOrderCreated(): ProducerFactory<String, OrderEventsProto.OrderCreatedIntegrationEvent> {
         val configs = kafkaProperties.buildProducerProperties()
         configs[ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG] = StringSerializer::class.java
         configs[ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG] = JsonSerializer::class.java
@@ -51,5 +52,20 @@ class KafkaConfig {
     }
 
     @Bean
-    fun kafkaTemplate(producerFactory: ProducerFactory<String, String>) = KafkaTemplate(producerFactory)
+    fun kafkaTemplateForOrderCreated(
+        producerFactoryForOrderCreated: ProducerFactory<String, OrderEventsProto.OrderCreatedIntegrationEvent>
+    ) = KafkaTemplate(producerFactoryForOrderCreated)
+
+    @Bean
+    fun producerFactoryForOrderCompleted(): ProducerFactory<String, OrderEventsProto.OrderCompletedIntegrationEvent> {
+        val configs = kafkaProperties.buildProducerProperties()
+        configs[ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG] = StringSerializer::class.java
+        configs[ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG] = JsonSerializer::class.java
+        return DefaultKafkaProducerFactory(configs)
+    }
+
+    @Bean
+    fun kafkaTemplateForOrderCompleted(
+        producerFactoryForOrderCompleted: ProducerFactory<String, OrderEventsProto.OrderCompletedIntegrationEvent>
+    ) = KafkaTemplate(producerFactoryForOrderCompleted)
 }

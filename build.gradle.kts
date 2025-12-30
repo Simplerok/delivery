@@ -21,7 +21,7 @@ val grpcKotlinVersion = "1.4.3"
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(17)
+        languageVersion = JavaLanguageVersion.of(21)
     }
 }
 
@@ -42,6 +42,8 @@ dependencies {
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.17.0")
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.17.0")
     implementation("net.devh:grpc-spring-boot-starter:3.1.0.RELEASE")
+
+    implementation("org.springframework.modulith:spring-modulith-starter-jpa:1.4.6")
 
     implementation("com.google.protobuf:protobuf-java:${protobufVersion}")
     implementation("com.google.protobuf:protobuf-java-util:${protobufVersion}")
